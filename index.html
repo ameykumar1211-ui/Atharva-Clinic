@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atharva Clinic | Trusted Family Healthcare</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            900: '#1e3a8a', // Deep Blue
+                            800: '#1e40af',
+                            700: '#1d4ed8',
+                            50: '#eff6ff',
+                            warm: '#fbfaf8' // Warm off-white
+                        },
+                        accent: {
+                            500: '#d97706', // Warm Gold/Orange for highlights
+                            600: '#b45309'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Merriweather', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #fbfaf8; }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e40af; }
+        
+        .tab-active { border-bottom: 3px solid #1e3a8a; color: #1e3a8a; font-weight: 700; }
+        .tab-inactive { color: #6B7280; border-bottom: 3px solid transparent; }
+        
+        /* Hide scrollbar for admin horizontal nav on mobile */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Smooth image zoom */
+        .img-zoom-hover { transition: transform 0.5s ease; }
+        .group:hover .img-zoom-hover { transform: scale(1.05); }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-brand-warm antialiased">
+
+    <!-- Navigation (Top Border) -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <!-- New Uploaded Logo -->
+                    <img src="clinic-front.jpg" alt="Atharva Clinic Logo" class="h-12 md:h-14 w-auto rounded-lg shadow-sm border border-gray-200 object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <!-- Fallback if image fails -->
+                    <div class="hidden w-10 h-10 border-2 border-red-600 text-red-600 items-center justify-center rounded-full">
+                        <i class="ph-fill ph-heartbeat text-2xl"></i>
+                    </div>
+                    
+                    <div class="hidden sm:block">
+                        <h1 class="font-serif text-2xl font-bold text-red-600 leading-none flex items-center gap-1">
+                            ATHARVA CLINIC <i class="ph-bold ph-plus text-xl"></i>
+                        </h1>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">Care | Compassion | Commitment</p>
+                    </div>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-6 items-center">
+                    <a href="#" class="text-sm font-semibold text-brand-900 hover:text-accent-500 transition-colors">Home</a>
+                    <a href="#about" class="text-sm font-medium text-gray-600 hover:text-brand-900 transition-colors">About Doctors</a>
+                    <a href="#services" class="text-sm font-semibold text-gray-800 hover:text-brand-900 transition-colors border-b-2 border-transparent hover:border-brand-900">Services</a>
+                    <a href="#packages" class="text-sm font-semibold text-gray-800 hover:text-brand-900 transition-colors border-b-2 border-transparent hover:border-brand-900">Health Packages</a>
+                    <a href="#more-info" class="text-sm font-medium text-gray-600 hover:text-brand-900 transition-colors">More Info</a>
+                    <a href="#contact" class="text-sm font-medium text-gray-600 hover:text-brand-900 transition-colors">Contact</a>
+                </div>
+
+                <!-- Right CTA -->
+                <div class="hidden lg:flex flex-col items-end">
+                    <a href="#contact" class="px-5 py-2 bg-brand-900 text-white text-sm font-medium rounded hover:bg-brand-800 transition-colors shadow-md flex items-center gap-2">
+                        <i class="ph ph-calendar-plus text-lg"></i> Book Appointment
+                    </a>
+                    <a href="tel:8433552290" class="flex items-center gap-1 text-sm font-bold text-gray-700 mt-2 hover:text-brand-900">
+                        <i class="ph-fill ph-phone text-accent-500"></i> +91 84335 52290
+                    </a>
+                </div>
+
+                <!-- Mobile menu / Admin buttons -->
+                <div class="lg:hidden flex items-center gap-4">
+                    <button onclick="openAdminLogin()" class="text-gray-400 hover:text-brand-900 transition-colors">
+                        <i class="ph ph-lock-key text-xl"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-brand-900 focus:outline-none bg-brand-50 p-2 rounded-lg">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Hidden Admin Icon for Desktop -->
+                <button onclick="openAdminLogin()" class="hidden lg:block absolute right-2 top-2 text-gray-300 hover:text-brand-900 transition-colors text-xs" title="Admin Portal">
+                    <i class="ph ph-lock-key"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
+            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
+                <a href="#about" class="block px-3 py-2 text-base font-medium hover:bg-brand-50 rounded text-brand-900">About Doctors</a>
+                <a href="#services" class="block px-3 py-2 text-base font-bold bg-brand-50 rounded text-brand-900">Services</a>
+                <a href="#packages" class="block px-3 py-2 text-base font-bold bg-brand-50 rounded text-brand-900">Health Packages</a>
+                <a href="#more-info" class="block px-3 py-2 text-base font-medium hover:bg-brand-50 rounded text-brand-900">More Info & Updates</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium hover:bg-brand-50 rounded text-brand-900">Contact</a>
+                <a href="#contact" class="block mt-4 text-center px-5 py-3 bg-brand-900 text-white font-medium rounded hover:bg-brand-800 flex justify-center items-center gap-2">
+                    <i class="ph ph-calendar-plus"></i> Book Appointment
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 lg:pt-40 lg:pb-24 bg-gradient-to-br from-brand-50 to-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center gap-12">
+            
+            <!-- Hero Text -->
+            <div class="w-full lg:w-1/2">
+                <p class="text-gray-600 font-medium mb-2 tracking-wide uppercase text-sm">Welcome to</p>
+                <h2 class="font-serif text-5xl lg:text-7xl font-bold text-red-600 leading-tight mb-4 flex items-baseline gap-2">
+                    Atharva Clinic <i class="ph-bold ph-plus text-3xl"></i>
+                </h2>
+                <h3 class="text-2xl font-serif text-gray-800 mb-6">
+                    Trusted Family Healthcare <br>for Every Generation
+                </h3>
+                <p class="text-gray-600 text-lg mb-8 max-w-lg leading-relaxed border-l-4 border-accent-500 pl-4">
+                    Comprehensive, compassionate and evidence-based medical care for you and your family.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact" class="px-6 py-3 bg-brand-900 text-white font-medium rounded-lg hover:bg-brand-800 transition-all shadow-lg flex items-center gap-2">
+                        <i class="ph ph-calendar-check text-xl"></i> Book an Appointment
+                    </a>
+                    <a href="tel:8433552290" class="px-6 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:border-brand-900 hover:text-brand-900 transition-all shadow-sm flex items-center gap-2">
+                        <i class="ph ph-phone-call text-xl text-brand-900"></i> Call Clinic
+                    </a>
+                    <a href="https://wa.me/918433552290" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-gray-700 font-medium rounded-lg hover:border-green-500 hover:text-green-600 transition-all shadow-sm flex items-center gap-2">
+                        <i class="ph ph-whatsapp-logo text-xl text-green-500"></i> WhatsApp Us
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="w-full lg:w-1/2 relative">
+                <div class="rounded-2xl overflow-hidden shadow-2xl border-4 border-white relative aspect-[4/3]">
+                    <img src="clinic-front.jpg" alt="Atharva Clinic Exterior" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1000&auto=format&fit=crop';">
+                </div>
+                <!-- Floating Element -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-gray-100 flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+                    <div class="w-12 h-12 bg-accent-500/10 rounded-full flex items-center justify-center text-accent-500">
+                        <i class="ph-fill ph-first-aid text-2xl"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-gray-800 text-sm">Expert Care</p>
+                        <p class="text-xs text-gray-500">Allopathy & Homeopathy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Atharva Clinic (Features Grid) -->
+    <section class="py-12 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+                <div class="p-4">
+                    <i class="ph ph-users-three text-3xl text-brand-900 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-gray-800 text-sm">Family-Focused Care</h4>
+                    <p class="text-xs text-gray-500 mt-1">Healthcare for all age groups under one roof</p>
+                </div>
+                <div class="p-4">
+                    <i class="ph ph-stethoscope text-3xl text-brand-900 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-gray-800 text-sm">Experienced Doctor</h4>
+                    <p class="text-xs text-gray-500 mt-1">Personalized care with clinical excellence</p>
+                </div>
+                <div class="p-4">
+                    <i class="ph ph-microscope text-3xl text-brand-900 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-gray-800 text-sm">Evidence-Based</h4>
+                    <p class="text-xs text-gray-500 mt-1">Modern medicine with ethical practice</p>
+                </div>
+                <div class="p-4">
+                    <i class="ph ph-map-pin-line text-3xl text-brand-900 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-gray-800 text-sm">Convenient Location</h4>
+                    <p class="text-xs text-gray-500 mt-1">Easily accessible in Parsik Nagar, Kalwa</p>
+                </div>
+                <div class="p-4 col-span-2 md:col-span-1">
+                    <i class="ph ph-wallet text-3xl text-brand-900 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-gray-800 text-sm">Affordable & Transparent</h4>
+                    <p class="text-xs text-gray-500 mt-1">Honest treatment with transparent consultation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Strip -->
+    <section class="bg-brand-900 text-white py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-sm">
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-clock text-2xl text-accent-500"></i>
+                    <div>
+                        <p class="font-bold mb-1">Clinic Timings</p>
+                        <p class="text-brand-50/80">Mon-Sat: 10:30 AM - 1:00 PM & 7:00 PM - 9:30 PM</p>
+                        <p class="text-brand-50/80">Sunday: 10:30 AM - 1:00 PM</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-phone text-2xl text-accent-500"></i>
+                    <div>
+                        <p class="font-bold mb-1">Call Us</p>
+                        <p class="text-brand-50/80">+91 84335 52290</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-whatsapp-logo text-2xl text-accent-500"></i>
+                    <div>
+                        <p class="font-bold mb-1">WhatsApp Us</p>
+                        <p class="text-brand-50/80">+91 84335 52290</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <i class="ph ph-map-pin text-2xl text-accent-500"></i>
+                    <div>
+                        <p class="font-bold mb-1">Visit Us</p>
+                        <p class="text-brand-50/80">Atharva Clinic, Shop No. 6,<br>Parsik Nagar, Kalwa, Thane</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Doctors Section -->
+    <section id="about" class="py-24 bg-brand-warm relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold">About Our Doctors</h2>
+                <div class="w-16 h-1 bg-accent-500 mx-auto mt-4"></div>
+            </div>
+
+            <!-- DR. RAKESH SURYAWANSHI -->
+            <div class="grid lg:grid-cols-12 gap-12 items-center bg-white rounded-3xl p-8 shadow-soft border border-gray-100">
+                <!-- Doctor Image (Actual DR RAKESH Image) -->
+                <div class="lg:col-span-5 relative">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/5] bg-gray-100 shadow-lg border-4 border-brand-50">
+                        <img src="doctor-rakesh.jpg" alt="Dr Rakesh Suryawanshi" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Rakesh+Suryawanshi&background=1e3a8a&color=fff&size=500';">
+                    </div>
+                </div>
+                
+                <!-- Doctor Info -->
+                <div class="lg:col-span-7">
+                    <h3 class="font-serif text-3xl text-gray-800 font-bold mb-3">Dr. Rakesh Suryawanshi</h3>
+                    <p class="text-accent-500 font-bold mb-4 text-lg">MBBS & PGCR</p>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Dr. Rakesh Suryawanshi is a dedicated Family Physician committed to providing comprehensive healthcare to individuals and families across all age groups.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        With extensive experience in modern medicine, he believes in building long-term relationships with patients and focusing on prevention, early diagnosis, and holistic well-being.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-y-4 gap-x-8 mb-8">
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700"></i>
+                            <span class="text-sm font-bold text-gray-800">Patient-Centric Approach</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700"></i>
+                            <span class="text-sm font-bold text-gray-800">Extensive Experience</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700"></i>
+                            <span class="text-sm font-bold text-gray-800">Evidence-Based Treatment</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700"></i>
+                            <span class="text-sm font-bold text-gray-800">Family Physician</span>
+                        </div>
+                    </div>
+
+                    <!-- Quote Block -->
+                    <div class="bg-brand-50 border-l-4 border-brand-900 p-6 rounded-r-xl relative">
+                        <i class="ph-fill ph-quotes text-3xl text-brand-900/10 absolute top-4 left-4"></i>
+                        <p class="font-serif italic text-brand-900 relative z-10 text-lg">
+                            "My goal is simple - to treat every patient with care, respect, and sincerity."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DR. GAYATRI SURYAWANSHI -->
+            <div class="grid lg:grid-cols-12 gap-12 items-center bg-white rounded-3xl p-8 shadow-soft border border-gray-100 mt-12">
+                <!-- Info -->
+                <div class="lg:col-span-7 lg:order-first">
+                    <h3 class="font-serif text-3xl text-gray-800 font-bold mb-3">Dr. Gayatri Suryawanshi</h3>
+                    <p class="text-accent-500 font-bold mb-4 text-lg">BHMS (Homeopathy)</p>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Dr. Gayatri Suryawanshi offers personalized homeopathic consultations with a holistic approach to long-term health and well-being.
+                    </p>
+
+                    <h4 class="font-bold text-brand-900 mb-4 text-lg">Areas of Care:</h4>
+                    
+                    <div class="grid grid-cols-1 gap-y-3 mb-8">
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">Chronic Acid Reflux & Digestive Complaints</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">Kidney Stones & Recurrent Urinary Complaints</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">Chronic Skin Conditions – eczema, psoriasis, acne and recurrent rashes</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">Allergies & Recurrent Respiratory Complaints</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">Stress, Sleep & Lifestyle-related Concerns</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5 text-lg"></i>
+                            <span class="text-sm font-bold text-gray-800">General Family & Preventive Healthcare</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image -->
+                <div class="lg:col-span-5 relative lg:order-last">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/5] bg-gray-100 shadow-lg border-4 border-brand-50">
+                        <img src="doctor-gayatri.jpg" alt="Dr Gayatri Suryawanshi" class="w-full h-full object-cover object-top" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Gayatri+Suryawanshi&background=1e3a8a&color=fff&size=500';">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dietician Anuradha Kolapkar Section -->
+            <div class="text-center mt-20 mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold">Clinical Nutrition & Dietetics</h2>
+                <div class="w-16 h-1 bg-accent-500 mx-auto mt-4"></div>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12 items-center bg-white rounded-3xl p-8 shadow-soft border border-gray-100">
+                <!-- Image -->
+                <div class="lg:col-span-5 relative lg:order-last">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/5] bg-gray-100 shadow-lg border-4 border-brand-50">
+                        <img src="dietician-anuradha.jpg" alt="Dietician Anuradha Kolapkar" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=Anuradha+Kolapkar&background=1e3a8a&color=fff&size=500';">
+                    </div>
+                </div>
+                
+                <!-- Info -->
+                <div class="lg:col-span-7 lg:order-first">
+                    <h3 class="font-serif text-3xl text-gray-800 font-bold mb-2">Dt. Anuradha Kolapkar</h3>
+                    <p class="text-accent-500 font-bold mb-4 text-lg">M.Sc. in Nutrition & Dietetics</p>
+                    
+                    <p class="text-brand-900 font-serif italic text-xl mb-6 leading-relaxed">
+                        "🌿 Eat Right, Live Bright!"
+                    </p>
+
+                    <div class="bg-brand-50 p-5 rounded-xl mb-8 border border-brand-100 inline-block shadow-sm">
+                        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 text-sm text-gray-800 font-medium">
+                            <div class="flex items-center gap-2">
+                                <i class="ph-fill ph-clock text-accent-500 text-xl"></i>
+                                <span>Mon - Sat: 7:30 PM - 9:00 PM (By Appt)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="ph-fill ph-phone text-accent-500 text-xl"></i>
+                                <a href="tel:9167734620" class="hover:text-brand-900 transition-colors font-bold">+91 9167734620</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Personalized Diet Plans</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Weight Management (Loss/Gain)</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Diabetes & Thyroid Diet</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">PCOS/PCOD Nutrition</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Child & Adolescent Nutrition</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Heart-Healthy & Cholesterol Control Diet</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Sports & Fitness Nutrition</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <i class="ph-fill ph-check-circle text-brand-700 mt-0.5"></i>
+                            <span class="text-sm font-bold text-gray-800">Post-Pregnancy & Senior Citizen Diets</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Our Services Section (Dynamic) -->
+    <section id="services" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold mb-4">Our Services</h2>
+                <p class="text-gray-500 text-sm">Comprehensive healthcare services for you and your family</p>
+                <div class="w-16 h-1 bg-accent-500 mx-auto mt-4"></div>
+            </div>
+
+            <!-- Services are injected here dynamically via JS -->
+            <div id="services-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <p class="text-center col-span-full text-brand-800 animate-pulse">Loading services...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Check-up Packages Section (Partnered with Hi Tech Pathology) -->
+    <section id="packages" class="py-24 bg-brand-warm border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="bg-red-50 text-red-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-3 inline-block border border-red-100 shadow-sm">Partnered with Hi Tech Pathology</span>
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold mb-4">Preventive Health Packages</h2>
+                <p class="text-gray-500 text-sm font-medium">Home Visit & Collection Available • Get your preventive care profile done today.</p>
+                <div class="w-16 h-1 bg-accent-500 mx-auto mt-6"></div>
+            </div>
+
+            <!-- 6-Card Grid for Pathology Packages -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                
+                <!-- Wellness 1 -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative flex flex-col hover:shadow-md transition-shadow">
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-brand-900 uppercase">Wellness 1</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹1,199</span>
+                            <span class="text-sm text-gray-400 line-through">₹2,400</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Complete Blood Count (CBC)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Glucose Fasting & HBA1c</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Thyroid Profile (T3 T4 TSH)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Lipid Profile (8)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Kidney Profile (1)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Complete Urine Examination</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-brand-50 text-brand-900 text-center font-bold rounded-lg hover:bg-brand-100 transition-colors border border-brand-200">Book Home Collection</a>
+                </div>
+
+                <!-- Wellness 2 (Popular) -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-brand-900 shadow-lg relative flex flex-col transform md:-translate-y-2">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent-500 text-white text-xs font-bold uppercase py-1 px-4 rounded-full shadow-md">Most Popular</div>
+                    <div class="border-b border-gray-100 pb-4 mb-4 mt-2">
+                        <h3 class="font-bold text-lg text-brand-900 uppercase">Wellness 2</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹1,999</span>
+                            <span class="text-sm text-gray-400 line-through">₹5,150</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li class="font-bold text-brand-900 bg-brand-50 p-2 rounded"><i class="ph-bold ph-plus mr-1"></i> Includes Wellness 1 Tests</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Liver Profile (11)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Kidney Profile (5)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Vitamin B12</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-brand-900 text-white text-center font-bold rounded-lg hover:bg-brand-800 transition-colors shadow-md">Book Home Collection</a>
+                </div>
+
+                <!-- Wellness 3 Women Special -->
+                <div class="bg-white rounded-2xl p-6 border border-pink-200 shadow-sm relative flex flex-col hover:shadow-md transition-shadow">
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-pink-600 uppercase">Women Special (W3)</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹3,099</span>
+                            <span class="text-sm text-gray-400 line-through">₹8,100</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li class="font-bold text-pink-900 bg-pink-50 p-2 rounded"><i class="ph-bold ph-plus mr-1"></i> Includes Wellness 2 Tests</li>
+                        <li><i class="ph-fill ph-check-circle text-pink-500 mr-2 text-base align-middle"></i> Iron Deficiency Profile (3)</li>
+                        <li><i class="ph-fill ph-check-circle text-pink-500 mr-2 text-base align-middle"></i> Vitamin D3</li>
+                        <li><i class="ph-fill ph-check-circle text-pink-500 mr-2 text-base align-middle"></i> FSH, LH & Prolactin</li>
+                        <li><i class="ph-fill ph-check-circle text-pink-500 mr-2 text-base align-middle"></i> Estradiol</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-pink-50 text-pink-700 text-center font-bold rounded-lg hover:bg-pink-100 transition-colors border border-pink-200">Book Home Collection</a>
+                </div>
+
+                <!-- Wellness 4 Men Special -->
+                <div class="bg-white rounded-2xl p-6 border border-blue-200 shadow-sm relative flex flex-col hover:shadow-md transition-shadow">
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-blue-700 uppercase">Men Special (W4)</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹3,099</span>
+                            <span class="text-sm text-gray-400 line-through">₹7,600</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li class="font-bold text-blue-900 bg-blue-50 p-2 rounded"><i class="ph-bold ph-plus mr-1"></i> Includes Wellness 2 Tests</li>
+                        <li><i class="ph-fill ph-check-circle text-blue-500 mr-2 text-base align-middle"></i> Iron Deficiency Profile (3)</li>
+                        <li><i class="ph-fill ph-check-circle text-blue-500 mr-2 text-base align-middle"></i> Vitamin D3</li>
+                        <li><i class="ph-fill ph-check-circle text-blue-500 mr-2 text-base align-middle"></i> Testosterone</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-blue-50 text-blue-700 text-center font-bold rounded-lg hover:bg-blue-100 transition-colors border border-blue-200">Book Home Collection</a>
+                </div>
+
+                <!-- Diabetes Profile -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative flex flex-col hover:shadow-md transition-shadow">
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-brand-900 uppercase">Diabetes Profile (W6)</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹1,600</span>
+                            <span class="text-sm text-gray-400 line-through">₹3,400</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> CBC & Complete Urine Exam</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Glucose (Fasting & PP)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> HBA1c</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Lipid Profile (8)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Kidney Profile (5)</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Urine Micro Albumin Creat Ratio</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-brand-50 text-brand-900 text-center font-bold rounded-lg hover:bg-brand-100 transition-colors border border-brand-200">Book Home Collection</a>
+                </div>
+
+                <!-- Arthritis Panel -->
+                <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm relative flex flex-col hover:shadow-md transition-shadow">
+                    <div class="border-b border-gray-100 pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-brand-900 uppercase">Arthritis Panel (W7)</h3>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-2xl font-bold text-red-600">₹1,900</span>
+                            <span class="text-sm text-gray-400 line-through">₹5,900</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-2.5 text-sm text-gray-600 flex-1 mb-6">
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> CBC & Complete Urine Exam</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> RA, Uric Acid, Calcium</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> ANA, ANTI CCP</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> CRP</li>
+                        <li><i class="ph-fill ph-check-circle text-brand-600 mr-2 text-base align-middle"></i> Kidney Profile (5)</li>
+                    </ul>
+                    <a href="#contact" class="w-full py-3 bg-brand-50 text-brand-900 text-center font-bold rounded-lg hover:bg-brand-100 transition-colors border border-brand-200">Book Home Collection</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- MORE INFO & UPDATES SECTION -->
+    <section id="more-info" class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold mb-4">More Information & Updates</h2>
+                <div class="w-16 h-1 bg-accent-500 mx-auto"></div>
+            </div>
+
+            <!-- Sub Section 1: Doctor Verification & Certifications -->
+            <div class="mb-16">
+                <h3 class="font-serif text-2xl text-brand-900 font-bold mb-6 text-center">Medical Council Verification</h3>
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Dr Rakesh QR -->
+                    <div class="bg-brand-warm p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                        <img src="qr-dr-rakesh.jpg" alt="Maharashtra Medical Council QR - Dr Rakesh" class="w-full h-auto rounded-xl object-contain mb-4 border border-gray-100" onerror="this.onerror=null; this.src='https://placehold.co/600x400/eeeeee/333333?text=MMC+QR+Code';">
+                        <h4 class="font-bold text-gray-800">Know Your Doctor - Dr. Rakesh Suryawanshi</h4>
+                        <p class="text-xs text-gray-500 mt-1">Scan to verify MMC Registration: 2008010082</p>
+                    </div>
+                    <!-- Dr Gayatri QR -->
+                    <div class="bg-brand-warm p-6 rounded-2xl shadow-sm border border-gray-200 text-center">
+                        <img src="qr-dr-gayatri.jpg" alt="Maharashtra Council of Homoeopathy QR - Dr Gayatri" class="w-full h-auto rounded-xl object-contain mb-4 border border-gray-100" onerror="this.onerror=null; this.src='https://placehold.co/600x400/eeeeee/333333?text=MCH+QR+Code';">
+                        <h4 class="font-bold text-gray-800">Know Your Doctor - Dr. Gayatri Suryawanshi</h4>
+                        <p class="text-xs text-gray-500 mt-1">Scan to verify MCH Registration: 60457</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Section 2: Health Awareness Videos -->
+            <div class="mb-16">
+                <h3 class="font-serif text-2xl text-brand-900 font-bold mb-6 text-center">Health Awareness</h3>
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-brand-warm rounded-2xl shadow-sm border border-gray-200 p-4">
+                        <video src="video-rakesh-1.mp4" controls preload="metadata" class="w-full aspect-[4/5] object-cover rounded-xl bg-black" poster="doctor-rakesh.jpg"></video>
+                        <p class="font-bold text-brand-900 mt-4 text-center">General Health Guidelines</p>
+                    </div>
+                    <div class="bg-brand-warm rounded-2xl shadow-sm border border-gray-200 p-4">
+                        <video src="video-rakesh-2.mp4" controls preload="metadata" class="w-full aspect-[4/5] object-cover rounded-xl bg-black" poster="doctor-rakesh.jpg"></video>
+                        <p class="font-bold text-brand-900 mt-4 text-center">Preventive Care Advice</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Section 3: Clinic Events & Felicitation -->
+            <div>
+                <h3 class="font-serif text-2xl text-brand-900 font-bold mb-6 text-center">Clinic Events & Felicitation</h3>
+                <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-brand-warm p-3 rounded-2xl shadow-sm border border-gray-200">
+                        <img src="event-photo-1.jpg" alt="Clinic Felicitation" class="w-full aspect-[4/3] object-cover rounded-xl" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&q=80';">
+                    </div>
+                    <div class="bg-brand-warm p-3 rounded-2xl shadow-sm border border-gray-200">
+                        <img src="event-photo-2.jpg" alt="Clinic Team Event" class="w-full aspect-[4/3] object-cover rounded-xl" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80';">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Clinic Photos Section -->
+    <section class="py-24 bg-brand-warm border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold mb-4">Clinic Gallery</h2>
+                <div class="w-16 h-1 bg-accent-500 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="group relative overflow-hidden rounded-xl aspect-[4/3] bg-gray-100 cursor-pointer shadow-sm border border-gray-200">
+                    <img src="clinic-reception.jpg" alt="Reception" class="w-full h-full object-cover img-zoom-hover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                        <span class="text-white font-medium text-sm">Reception</span>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-xl aspect-[4/3] bg-gray-100 cursor-pointer shadow-sm border border-gray-200">
+                    <img src="clinic-consultation.jpg" alt="Consultation Room" class="w-full h-full object-cover img-zoom-hover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&q=80';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                        <span class="text-white font-medium text-sm">Consultation Room</span>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-xl aspect-[4/3] bg-gray-100 cursor-pointer shadow-sm border border-gray-200">
+                    <img src="clinic-treatment.jpg" alt="Treatment Area" class="w-full h-full object-cover img-zoom-hover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&q=80';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                        <span class="text-white font-medium text-sm">Treatment Area</span>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-xl aspect-[4/3] bg-gray-100 cursor-pointer shadow-sm border border-gray-200">
+                    <img src="clinic-front.jpg" alt="Exterior" class="w-full h-full object-cover img-zoom-hover" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80';">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                        <span class="text-white font-medium text-sm">Exterior / Signage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Reviews (Dynamic Firebase Section) -->
+    <section id="testimonials" class="py-24 bg-brand-50 relative overflow-hidden border-t border-brand-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <i class="ph-fill ph-quotes text-5xl text-accent-500 mb-4 opacity-50"></i>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 text-brand-900">Patient Reviews</h2>
+                <div class="w-16 h-1 bg-brand-900 mx-auto"></div>
+            </div>
+            
+            <div id="testimonials-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Testimonials injected by JS -->
+                <p class="text-center col-span-full text-brand-800 animate-pulse">Loading feedback...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Articles Section -->
+    <section class="py-24 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-3xl md:text-4xl text-brand-900 font-bold mb-4">Health Articles</h2>
+                <div class="w-16 h-1 bg-accent-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Article 1 -->
+                <div class="bg-brand-warm rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm mb-4">
+                        <i class="ph-fill ph-heartbeat text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-brand-900 transition-colors">When should you check BP?</h4>
+                    <p class="text-sm text-gray-600 line-clamp-3">Regular monitoring helps catch silent hypertension early. Learn the ideal times to measure blood pressure at home.</p>
+                    <span class="text-xs font-bold text-accent-500 uppercase tracking-wide mt-4 block">Read More &rarr;</span>
+                </div>
+                <!-- Article 2 -->
+                <div class="bg-brand-warm rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm mb-4">
+                        <i class="ph-fill ph-drop text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-brand-900 transition-colors">HbA1c Explained</h4>
+                    <p class="text-sm text-gray-600 line-clamp-3">Understanding your 3-month average blood sugar levels and why this test is crucial for diabetes management.</p>
+                    <span class="text-xs font-bold text-accent-500 uppercase tracking-wide mt-4 block">Read More &rarr;</span>
+                </div>
+                <!-- Article 3 -->
+                <div class="bg-brand-warm rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm mb-4">
+                        <i class="ph-fill ph-thermometer text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-brand-900 transition-colors">Fever: When to Consult?</h4>
+                    <p class="text-sm text-gray-600 line-clamp-3">Not all fevers are the same. A quick guide on when to rest and when to immediately visit the clinic.</p>
+                    <span class="text-xs font-bold text-accent-500 uppercase tracking-wide mt-4 block">Read More &rarr;</span>
+                </div>
+                <!-- Article 4 -->
+                <div class="bg-brand-warm rounded-xl p-6 border border-gray-100 hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-brand-900 shadow-sm mb-4">
+                        <i class="ph-fill ph-calendar text-2xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-brand-900 transition-colors">Health check-up after 40</h4>
+                    <p class="text-sm text-gray-600 line-clamp-3">Entering your 40s? Here are the mandatory annual screenings to ensure you stay healthy and active.</p>
+                    <span class="text-xs font-bold text-accent-500 uppercase tracking-wide mt-4 block">Read More &rarr;</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking & Contact Section -->
+    <section id="contact" class="py-24 bg-brand-warm border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12">
+                
+                <!-- Contact Info & Map Placeholder -->
+                <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+                    <div class="text-center mb-8">
+                        <h2 class="font-serif text-3xl text-brand-900 font-bold mb-2">Contact Us</h2>
+                        <p class="text-sm text-gray-500">We are here to help you and your family</p>
+                    </div>
+                    
+                    <div class="space-y-6 mb-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-brand-50 rounded-full flex items-center justify-center text-brand-900 shrink-0">
+                                <i class="ph-fill ph-map-pin text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Address</h4>
+                                <p class="text-gray-600 text-sm">Atharva Clinic, Shop No. 6,<br>Parsik Nagar, Kalwa, Thane - 400605</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-brand-50 rounded-full flex items-center justify-center text-brand-900 shrink-0">
+                                <i class="ph-fill ph-phone text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Phone / WhatsApp</h4>
+                                <p class="text-gray-600 text-sm">+91 84335 52290</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-brand-50 rounded-full flex items-center justify-center text-brand-900 shrink-0">
+                                <i class="ph-fill ph-clock text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">Timings</h4>
+                                <p class="text-gray-600 text-sm">Mon - Sat : 10:30 AM - 1:00 PM & 7:00 PM - 9:30 PM<br>Sunday : 10:30 AM - 1:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Placeholder -->
+                    <div class="w-full h-48 bg-gray-200 rounded-xl flex items-center justify-center relative overflow-hidden border border-gray-300">
+                        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover opacity-30 grayscale" alt="Map">
+                        <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                            <i class="ph-fill ph-map-pin text-3xl text-red-500 mb-1 drop-shadow-md"></i>
+                            <span class="bg-white/90 px-3 py-1 rounded text-xs font-bold text-gray-800 shadow-sm">Atharva Clinic, Parsik Nagar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking / Check Status Form Area -->
+                <div class="bg-brand-900 rounded-3xl p-6 md:p-8 shadow-xl text-white">
+                    <div class="mb-8">
+                        <h3 class="font-serif text-2xl font-bold mb-2">Book an Appointment</h3>
+                        <p class="text-brand-50/80 text-sm">Easy. Quick. Convenient.</p>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex gap-4 mb-6 border-b border-brand-800">
+                        <button onclick="switchTab('book')" id="tab-book" class="pb-2 px-2 text-sm md:text-base font-bold border-b-2 border-white transition-colors">Book Online</button>
+                        <button onclick="switchTab('status')" id="tab-status" class="pb-2 px-2 text-sm md:text-base text-brand-50/60 border-b-2 border-transparent hover:text-white transition-colors">Check Status</button>
+                    </div>
+
+                    <!-- Book Appointment Form -->
+                    <div id="form-book">
+                        <form id="booking-form" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-brand-100 mb-1">Full Name</label>
+                                <input type="text" id="p-name" required class="w-full px-4 py-3 rounded-lg border-0 bg-white/10 text-white placeholder-brand-50/50 focus:ring-2 focus:ring-accent-500 outline-none transition-all">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-medium text-brand-100 mb-1">Phone Number</label>
+                                    <input type="tel" id="p-phone" required class="w-full px-4 py-3 rounded-lg border-0 bg-white/10 text-white placeholder-brand-50/50 focus:ring-2 focus:ring-accent-500 outline-none transition-all">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-brand-100 mb-1">Date</label>
+                                    <input type="date" id="p-date" required class="w-full px-4 py-3 rounded-lg border-0 bg-white/10 text-white focus:ring-2 focus:ring-accent-500 outline-none transition-all [color-scheme:dark]">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-brand-100 mb-1 flex justify-between">
+                                    <span>Time</span>
+                                    <span class="text-accent-500 font-bold"><i class="ph ph-info"></i> Auto-assigned</span>
+                                </label>
+                                <input type="text" disabled value="Time will be set by doctor" class="w-full px-4 py-3 rounded-lg border-0 bg-black/20 text-brand-50/50 cursor-not-allowed text-sm italic">
+                            </div>
+                            
+                            <div class="pt-2 flex flex-col md:flex-row gap-3">
+                                <button type="submit" id="submit-btn" class="flex-1 py-3 bg-accent-500 text-white font-bold rounded-lg hover:bg-accent-600 transition-colors shadow-lg flex justify-center items-center gap-2">
+                                    <i class="ph ph-calendar-plus text-lg"></i> Confirm Booking
+                                </button>
+                                <a href="https://wa.me/918433552290" target="_blank" class="flex-1 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-colors flex justify-center items-center gap-2">
+                                    <i class="ph ph-whatsapp-logo text-lg text-green-400"></i> WhatsApp Us
+                                </a>
+                            </div>
+                            <p id="form-success" class="text-green-300 text-sm text-center hidden mt-2 font-medium bg-black/20 p-2 rounded">Request sent! Use 'Check Status' later to see your time.</p>
+                        </form>
+                    </div>
+
+                    <!-- Check Status Section -->
+                    <div id="form-status" class="hidden space-y-4">
+                        <div class="bg-white/5 p-4 rounded-lg border border-white/10 mb-4">
+                            <p class="text-sm text-brand-100 text-center">Enter your phone number to check your appointment status and assigned time.</p>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-brand-100 mb-1">Registered Phone Number</label>
+                            <input type="tel" id="check-phone" placeholder="e.g. 9876543210" class="w-full px-4 py-3 rounded-lg border-0 bg-white/10 text-white placeholder-brand-50/50 focus:ring-2 focus:ring-accent-500 outline-none transition-all">
+                        </div>
+                        <button onclick="checkStatus()" class="w-full py-3 bg-accent-500 text-white font-bold rounded-lg hover:bg-accent-600 transition-colors shadow-lg">
+                            Search Appointment
+                        </button>
+                        
+                        <!-- Status Results -->
+                        <div id="status-result" class="hidden mt-6 space-y-3">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#172554] pt-12 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <img src="clinic-front.jpg" alt="Atharva Clinic Logo" class="h-10 w-auto rounded object-cover border border-brand-800" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="hidden flex items-center gap-2">
+                    <i class="ph-fill ph-heartbeat text-2xl text-red-600"></i>
+                    <h2 class="font-serif text-xl font-bold text-red-600 tracking-wide">ATHARVA CLINIC <i class="ph-bold ph-plus"></i></h2>
+                </div>
+                <h2 class="font-serif text-xl font-bold text-white tracking-wide block sm:hidden">ATHARVA CLINIC</h2>
+            </div>
+            
+            <div class="flex gap-4">
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ph-fill ph-facebook-logo text-2xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ph-fill ph-instagram-logo text-2xl"></i></a>
+                <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ph-fill ph-google-logo text-2xl"></i></a>
+            </div>
+
+            <div class="text-sm text-gray-400 text-center md:text-right">
+                &copy; <span id="year"></span> Atharva Clinic. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="fixed inset-0 bg-black/70 z-[100] hidden flex items-center justify-center backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl relative">
+            <button onclick="closeAdminLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800"><i class="ph ph-x text-xl"></i></button>
+            <div class="text-center mb-6">
+                <i class="ph-fill ph-shield-check text-4xl text-brand-900 mb-2"></i>
+                <h3 class="font-serif text-2xl font-bold text-brand-900">Admin Login</h3>
+            </div>
+            <input type="password" id="admin-pass-input" placeholder="Password" class="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none mb-4 text-center tracking-widest focus:border-brand-900">
+            <p id="admin-error" class="text-red-500 text-xs text-center hidden mb-4">Incorrect password</p>
+            <button onclick="verifyAdmin()" class="w-full py-3 bg-brand-900 text-white rounded-xl hover:bg-brand-800 font-medium transition-colors">Access Panel</button>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="admin-dashboard" class="fixed inset-0 bg-gray-50 z-[110] hidden">
+        
+        <!-- Admin Header -->
+        <div class="absolute top-0 left-0 w-full h-16 bg-brand-900 text-white shadow-md z-30">
+            <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center w-full">
+                <h2 class="font-serif text-xl font-bold flex items-center gap-2">
+                    <i class="ph-fill ph-user-list text-accent-500"></i> <span class="hidden sm:inline">Admin Dashboard</span><span class="sm:hidden">Dashboard</span>
+                </h2>
+                <button onclick="logoutAdmin()" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-red-500/20 text-red-100 rounded-lg hover:bg-red-500 transition-colors text-sm font-medium flex items-center gap-1">
+                    <i class="ph ph-sign-out"></i> Exit
+                </button>
+            </div>
+        </div>
+
+        <!-- Scrollable Content Container -->
+        <div class="absolute top-16 bottom-0 left-0 w-full overflow-y-auto overflow-x-hidden" style="-webkit-overflow-scrolling: touch;">
+            <div class="flex flex-col md:flex-row max-w-7xl mx-auto w-full min-h-full">
+                
+                <!-- Sidebar Nav -->
+                <div class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-gray-200 p-3 md:p-4 flex flex-row md:flex-col gap-2 shrink-0 overflow-x-auto no-scrollbar sticky top-0 z-20 shadow-sm md:shadow-none md:h-fit">
+                    <button onclick="switchAdminTab('appointments-view')" id="btn-appointments-view" class="admin-tab-btn active flex-none md:flex-1 flex items-center justify-center md:justify-start gap-2 px-4 py-3 rounded-lg bg-brand-50 text-brand-900 font-bold transition-colors border border-brand-100">
+                        <i class="ph ph-calendar-check text-lg"></i> <span class="whitespace-nowrap">Appointments</span>
+                    </button>
+                    <button onclick="switchAdminTab('services-view')" id="btn-services-view" class="admin-tab-btn flex-none md:flex-1 flex items-center justify-center md:justify-start gap-2 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors border border-transparent">
+                        <i class="ph ph-first-aid text-lg"></i> <span class="whitespace-nowrap">Manage Services</span>
+                    </button>
+                    <button onclick="switchAdminTab('feedback-view')" id="btn-feedback-view" class="admin-tab-btn flex-none md:flex-1 flex items-center justify-center md:justify-start gap-2 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 font-medium transition-colors border border-transparent">
+                        <i class="ph ph-chat-circle-text text-lg"></i> <span class="whitespace-nowrap">Manage Feedback</span>
+                    </button>
+                </div>
+
+                <!-- Main Content Pane -->
+                <div class="flex-1 p-4 md:p-6 pb-32">
+                    
+                    <!-- Appointments View -->
+                    <div id="appointments-view" class="admin-view bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 mb-8">
+                        <h3 class="text-lg md:text-xl font-bold text-gray-800 mb-4 border-b pb-2">Manage Appointments</h3>
+                        
+                        <!-- Desktop Table Header -->
+                        <div class="hidden md:flex text-xs uppercase tracking-wide text-gray-500 bg-gray-50 p-3 rounded-t-lg border-b border-gray-200">
+                            <div class="w-1/4 font-medium">Patient</div>
+                            <div class="w-1/4 font-medium">Date</div>
+                            <div class="w-1/4 font-medium">Status/Time</div>
+                            <div class="w-1/4 font-medium text-right">Actions</div>
+                        </div>
+                        
+                        <!-- Appointment List -->
+                        <div id="admin-appointments-list" class="flex flex-col gap-4 md:gap-0 mt-2 md:mt-0">
+                            <!-- JS Injected Cards -->
+                        </div>
+                    </div>
+
+                    <!-- Services View -->
+                    <div id="services-view" class="admin-view hidden pb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Add Service Form -->
+                            <div class="md:col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-fit">
+                                <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wide">Add New Service</h3>
+                                <p id="service-error-msg" class="text-xs text-red-500 mb-2 hidden">Please fill Title and Description.</p>
+                                <div class="space-y-3">
+                                    <input type="text" id="svc-title" placeholder="Service Title (e.g. Vaccination)" class="w-full px-3 py-3 border rounded-lg text-sm outline-none focus:border-brand-900 bg-gray-50 focus:bg-white">
+                                    <textarea id="svc-desc" placeholder="Service Description..." rows="2" class="w-full px-3 py-3 border rounded-lg text-sm outline-none focus:border-brand-900 bg-gray-50 focus:bg-white"></textarea>
+                                    <input type="text" id="svc-icon" placeholder="Icon Class (e.g. ph-syringe)" class="w-full px-3 py-3 border rounded-lg text-sm outline-none focus:border-brand-900 bg-gray-50 focus:bg-white">
+                                    <button onclick="addService()" class="w-full py-3 bg-brand-900 text-white rounded-lg text-sm font-bold hover:bg-brand-800 transition-colors">Add Service</button>
+                                </div>
+                            </div>
+                            
+                            <!-- List of Services -->
+                            <div class="md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wide">Active Services</h3>
+                                <div id="admin-services-list" class="space-y-4">
+                                    <!-- JS Injected -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback View -->
+                    <div id="feedback-view" class="admin-view hidden pb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Add Feedback Form -->
+                            <div class="md:col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-5 h-fit">
+                                <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wide">Add New Testimonial</h3>
+                                <p id="fb-error-msg" class="text-xs text-red-500 mb-2 hidden">Please fill both fields.</p>
+                                <div class="space-y-3">
+                                    <input type="text" id="fb-name" placeholder="Patient Name" class="w-full px-3 py-3 border rounded-lg text-sm outline-none focus:border-brand-900 bg-gray-50 focus:bg-white">
+                                    <textarea id="fb-text" placeholder="Patient Feedback..." rows="4" class="w-full px-3 py-3 border rounded-lg text-sm outline-none focus:border-brand-900 bg-gray-50 focus:bg-white"></textarea>
+                                    <button onclick="addFeedback()" class="w-full py-3 bg-brand-900 text-white rounded-lg text-sm font-bold hover:bg-brand-800 transition-colors">Add to Website</button>
+                                </div>
+                            </div>
+                            
+                            <!-- List of Feedbacks -->
+                            <div class="md:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                <h3 class="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wide">Active Testimonials</h3>
+                                <div id="admin-feedback-list" class="space-y-4">
+                                    <!-- JS Injected -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Firebase Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDOaSYnhL0nSZbHGz6w0i6KesQy7iV5F0M",
+            authDomain: "atharva-clinic-3af20.firebaseapp.com",
+            databaseURL: "https://atharva-clinic-3af20-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "atharva-clinic-3af20",
+            storageBucket: "atharva-clinic-3af20.firebasestorage.app",
+            messagingSenderId: "147340965847",
+            appId: "1:147340965847:web:87f2c4f67e22024563fd92"
+        };
+
+        let db;
+        let isFirebaseActive = false;
+        let localAppointments = []; 
+        let localFeedbacks = [
+            { id: '1', name: 'Priya Sharma', text: 'Atharva Clinic has been a beacon of hope and healing. My goal is simple - to treat every patient with care, respect and sincerity.' }
+        ];
+
+        let localServices = [
+            { id: 's1', title: 'General Medicine', desc: 'Treatment for acute & chronic illnesses', icon: 'ph-heartbeat' },
+            { id: 's2', title: 'Diabetes Care', desc: 'Diagnosis, monitoring & control', icon: 'ph-drop' },
+            { id: 's3', title: 'Fever & Infections', desc: 'Treatment for viral & bacterial infections', icon: 'ph-thermometer' },
+            { id: 's4', title: 'Pediatric Care', desc: 'Child health & routine illness management', icon: 'ph-baby' },
+            { id: 's5', title: 'Women\'s Health', desc: 'General women healthcare & concerns', icon: 'ph-gender-female' },
+            { id: 's6', title: 'Elderly Care', desc: 'Geriatric health management', icon: 'ph-wheelchair' },
+            { id: 's7', title: 'Preventive Health', desc: 'Health check-ups & screenings', icon: 'ph-shield-plus' },
+            { id: 's8', title: 'Weight Management', desc: 'Diet & lifestyle guidance', icon: 'ph-scales' },
+            { id: 's9', title: 'Minor Procedures', desc: 'Wound care, injections, administration', icon: 'ph-bandaids' },
+            { id: 's10', title: 'Health Counselling', desc: 'Personalized chronic disease management', icon: 'ph-file-text' },
+            { id: 's11', title: 'Vaccination', desc: 'All Pediatric and Adult Vaccinations available', icon: 'ph-syringe' }
+        ];
+        
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            isFirebaseActive = true;
+            setupRealtimeListeners();
+        } catch (error) {
+            console.error("Firebase Auth/DB Error:", error);
+            renderTestimonials(); 
+            renderServices(); // Render default services
+        }
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // -----------------------------------------
+        // UI TABS & NAVIGATION
+        // -----------------------------------------
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+
+        window.switchTab = (tab) => {
+            const isBook = tab === 'book';
+            document.getElementById('form-book').classList.toggle('hidden', !isBook);
+            document.getElementById('form-status').classList.toggle('hidden', isBook);
+            
+            document.getElementById('tab-book').className = isBook ? 'pb-2 px-2 text-sm md:text-base font-bold border-b-2 border-white transition-colors' : 'pb-2 px-2 text-sm md:text-base text-brand-50/60 border-b-2 border-transparent hover:text-white transition-colors';
+            document.getElementById('tab-status').className = !isBook ? 'pb-2 px-2 text-sm md:text-base font-bold border-b-2 border-white transition-colors' : 'pb-2 px-2 text-sm md:text-base text-brand-50/60 border-b-2 border-transparent hover:text-white transition-colors';
+        };
+
+        // -----------------------------------------
+        // PATIENT ACTIONS: BOOK & CHECK
+        // -----------------------------------------
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<i class="ph ph-spinner animate-spin text-lg"></i> Booking...'; btn.disabled = true;
+
+            const newAppt = {
+                name: document.getElementById('p-name').value,
+                phone: document.getElementById('p-phone').value,
+                date: document.getElementById('p-date').value,
+                time: 'Pending', 
+                status: 'Pending Review',
+                createdAt: new Date().toISOString()
+            };
+
+            if(isFirebaseActive) {
+                try {
+                    await addDoc(collection(db, "appointments"), newAppt);
+                } catch(e) { console.error(e); localAppointments.push({...newAppt, id: Date.now().toString()}); }
+            } else {
+                localAppointments.push({...newAppt, id: Date.now().toString()});
+            }
+
+            document.getElementById('booking-form').reset();
+            document.getElementById('form-success').classList.remove('hidden');
+            setTimeout(() => document.getElementById('form-success').classList.add('hidden'), 5000);
+            btn.innerHTML = '<i class="ph ph-calendar-plus text-lg"></i> Confirm Booking'; btn.disabled = false;
+        });
+
+        window.checkStatus = () => {
+            const phone = document.getElementById('check-phone').value.trim();
+            const resDiv = document.getElementById('status-result');
+            if(!phone) return;
+            
+            const userAppts = localAppointments.filter(a => a.phone === phone);
+            
+            resDiv.classList.remove('hidden');
+            if(userAppts.length === 0) {
+                resDiv.innerHTML = `<div class="p-4 bg-red-500/10 text-red-200 rounded-lg text-sm border border-red-500/20">No appointments found for this number.</div>`;
+            } else {
+                userAppts.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                const appt = userAppts[0];
+                
+                let timeHtml = appt.time === 'Pending' 
+                    ? `<span class="text-brand-100 italic">Will assign soon</span>` 
+                    : `<span class="text-white font-bold text-lg">${appt.time}</span>`;
+
+                resDiv.innerHTML = `
+                    <div class="p-5 bg-white/10 rounded-xl border border-white/20 shadow-sm">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <p class="text-xs text-brand-100 uppercase tracking-wide">Patient</p>
+                                <p class="font-bold text-white">${appt.name}</p>
+                            </div>
+                            <span class="px-2 py-1 bg-${appt.time === 'Pending' ? 'accent-500' : 'brand-700'} text-white text-xs font-bold rounded uppercase">${appt.status}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 bg-black/20 p-3 rounded-lg">
+                            <div>
+                                <p class="text-xs text-brand-100 uppercase">Date</p>
+                                <p class="font-medium text-white">${appt.date}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-brand-100 uppercase">Assigned Time</p>
+                                ${timeHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        };
+
+        // -----------------------------------------
+        // FIREBASE REALTIME LISTENERS
+        // -----------------------------------------
+        function setupRealtimeListeners() {
+            onSnapshot(query(collection(db, "appointments")), (snap) => {
+                localAppointments = [];
+                snap.forEach(doc => localAppointments.push({ id: doc.id, ...doc.data() }));
+                localAppointments.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                renderAdminAppointments();
+            }, (error) => console.log("Firebase Error.", error));
+
+            onSnapshot(query(collection(db, "testimonials")), (snap) => {
+                localFeedbacks = [];
+                snap.forEach(doc => localFeedbacks.push({ id: doc.id, ...doc.data() }));
+                renderTestimonials();
+                renderAdminFeedbacks();
+            }, (error) => console.log("Firebase Error.", error));
+
+            onSnapshot(query(collection(db, "services")), (snap) => {
+                if(!snap.empty) {
+                    localServices = [];
+                    snap.forEach(doc => localServices.push({ id: doc.id, ...doc.data() }));
+                    localServices.sort((a,b) => (a.createdAt || 0) - (b.createdAt || 0));
+                }
+                renderServices();
+                renderAdminServices();
+            }, (error) => {
+                console.log("Firebase Services Listener Error.", error);
+                renderServices();
+                renderAdminServices();
+            });
+        }
+
+        // -----------------------------------------
+        // RENDERING FUNCTIONS (PUBLIC)
+        // -----------------------------------------
+        function renderTestimonials() {
+            const container = document.getElementById('testimonials-container');
+            if(localFeedbacks.length === 0) {
+                container.innerHTML = '<p class="text-center col-span-full text-brand-300">No testimonials yet.</p>';
+                return;
+            }
+            container.innerHTML = localFeedbacks.map(fb => `
+                <div class="bg-white p-6 rounded-2xl border border-brand-100 shadow-sm relative">
+                    <i class="ph-fill ph-quotes text-3xl text-brand-50 absolute top-4 right-4"></i>
+                    <p class="text-sm text-gray-600 italic mb-4 relative z-10 leading-relaxed">"${fb.text}"</p>
+                    <p class="font-bold text-brand-900">- ${fb.name}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderServices() {
+            const container = document.getElementById('services-container');
+            if(localServices.length === 0) {
+                container.innerHTML = '<p class="text-center col-span-full text-brand-300">Services are being updated...</p>';
+                return;
+            }
+            container.innerHTML = localServices.map(svc => `
+                <div class="p-6 bg-brand-warm rounded-2xl text-center hover:shadow-soft hover:bg-brand-50 transition-all border border-gray-100 group">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform text-brand-900 border border-brand-100">
+                        <i class="ph ${svc.icon || 'ph-first-aid'} text-3xl"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-800 text-sm mb-2">${svc.title}</h4>
+                    <p class="text-xs text-gray-500">${svc.desc}</p>
+                </div>
+            `).join('');
+        }
+
+
+        // -----------------------------------------
+        // ADMIN PANEL LOGIC 
+        // -----------------------------------------
+        window.openAdminLogin = () => { document.getElementById('admin-login-modal').classList.remove('hidden'); };
+        window.closeAdminLogin = () => { document.getElementById('admin-login-modal').classList.add('hidden'); document.getElementById('admin-error').classList.add('hidden'); };
+        
+        window.verifyAdmin = () => {
+            if (document.getElementById('admin-pass-input').value === 'Atharava@123') {
+                closeAdminLogin();
+                document.getElementById('admin-dashboard').classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; 
+                renderAdminAppointments();
+                renderAdminServices();
+                renderAdminFeedbacks();
+            } else {
+                document.getElementById('admin-error').classList.remove('hidden');
+            }
+        };
+        
+        window.logoutAdmin = () => {
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.body.style.overflow = 'auto'; 
+            document.getElementById('admin-pass-input').value = '';
+        };
+
+        window.switchAdminTab = (viewId) => {
+            document.querySelectorAll('.admin-view').forEach(el => el.classList.add('hidden'));
+            document.getElementById(viewId).classList.remove('hidden');
+            
+            document.querySelectorAll('.admin-tab-btn').forEach(el => {
+                el.classList.remove('bg-brand-50', 'text-brand-900', 'font-bold', 'border-brand-100');
+                el.classList.add('text-gray-600', 'border-transparent');
+            });
+            const btn = document.getElementById(`btn-${viewId}`);
+            btn.classList.add('bg-brand-50', 'text-brand-900', 'font-bold', 'border-brand-100');
+            btn.classList.remove('text-gray-600', 'border-transparent');
+        };
+
+        // --- Admin: Appointments ---
+        function renderAdminAppointments() {
+            const container = document.getElementById('admin-appointments-list');
+            if(localAppointments.length === 0) {
+                container.innerHTML = '<div class="p-8 text-center text-gray-400 border rounded-lg mt-2 flex flex-col items-center bg-gray-50"><i class="ph ph-calendar-blank text-3xl mb-2 text-gray-300"></i> No appointments pending</div>';
+                return;
+            }
+            container.innerHTML = localAppointments.map(app => `
+                <div class="bg-white md:bg-transparent border border-gray-200 md:border-b md:border-x-0 md:border-t-0 md:rounded-none rounded-xl p-4 md:mb-0 flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-gray-50 transition-colors shadow-sm md:shadow-none">
+                    <div class="md:w-1/4">
+                        <p class="font-bold text-brand-900 text-base md:text-sm">${app.name}</p>
+                        <p class="text-sm md:text-xs text-gray-500 flex items-center gap-1 mt-1 md:mt-0"><i class="ph-fill ph-phone md:hidden text-brand-400"></i>${app.phone}</p>
+                    </div>
+                    <div class="md:w-1/4 text-sm text-gray-700 font-medium flex md:block items-center justify-between border-t border-gray-100 md:border-0 pt-3 md:pt-0">
+                        <span class="md:hidden text-xs text-gray-400 uppercase">Date</span>
+                        ${app.date}
+                    </div>
+                    <div class="md:w-1/4 flex md:block items-center justify-between border-t border-gray-100 md:border-0 pt-3 md:pt-0">
+                        <span class="md:hidden text-xs text-gray-400 uppercase">Status</span>
+                        ${app.time === 'Pending' 
+                            ? `<span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded font-bold">Pending Time</span>`
+                            : `<span class="px-2 py-1 bg-brand-100 text-brand-700 font-bold text-xs rounded">${app.time}</span>`
+                        }
+                    </div>
+                    <div class="md:w-1/4 flex gap-2 justify-end md:justify-end border-t border-gray-100 md:border-0 pt-4 md:pt-0 mt-2 md:mt-0">
+                        <button onclick="setTime('${app.id}')" class="flex-1 md:flex-none px-4 py-2.5 md:px-3 md:py-1.5 bg-brand-50 border border-brand-200 text-brand-900 hover:bg-brand-100 text-sm md:text-xs rounded-lg md:rounded font-bold transition-colors shadow-sm md:shadow-none">Set Time</button>
+                        <button onclick="deleteAppt('${app.id}')" class="px-4 py-2.5 md:px-3 md:py-1.5 bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 text-sm md:text-xs rounded-lg md:rounded font-bold transition-colors flex items-center justify-center shadow-sm md:shadow-none" title="Mark Done / Delete">
+                            <i class="ph ph-trash text-lg md:text-base"></i> <span class="md:hidden ml-1">Delete</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.setTime = async (id) => {
+            const time = prompt("Enter the time for this appointment (e.g., 7:30 PM):");
+            if(time && isFirebaseActive) {
+                await updateDoc(doc(db, "appointments", id), { time: time, status: 'Confirmed' });
+            } else if (time) {
+                const idx = localAppointments.findIndex(a => a.id === id);
+                if(idx > -1) { localAppointments[idx].time = time; localAppointments[idx].status = 'Confirmed'; renderAdminAppointments(); }
+            }
+        };
+
+        window.deleteAppt = async (id) => {
+            if(confirm("Are you sure you want to delete this appointment?")) {
+                if(isFirebaseActive) await deleteDoc(doc(db, "appointments", id));
+                else { localAppointments = localAppointments.filter(a => a.id !== id); renderAdminAppointments(); }
+            }
+        };
+
+        // --- Admin: Services ---
+        function renderAdminServices() {
+            const list = document.getElementById('admin-services-list');
+            if(localServices.length === 0) { list.innerHTML = '<p class="text-sm text-gray-400 p-4 border rounded-lg text-center bg-gray-50">No services available.</p>'; return; }
+            
+            list.innerHTML = localServices.map(svc => `
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl flex justify-between items-center gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm border border-gray-100 text-brand-900 shrink-0">
+                            <i class="ph ${svc.icon || 'ph-first-aid'} text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-brand-900">${svc.title}</p>
+                            <p class="text-xs text-gray-600">${svc.desc}</p>
+                        </div>
+                    </div>
+                    <button onclick="deleteService('${svc.id}')" class="text-red-500 bg-white border border-red-100 hover:bg-red-50 p-2 rounded-lg transition-colors shadow-sm shrink-0"><i class="ph ph-trash text-lg"></i></button>
+                </div>
+            `).join('');
+        }
+
+        window.addService = async () => {
+            const title = document.getElementById('svc-title').value.trim();
+            const desc = document.getElementById('svc-desc').value.trim();
+            const icon = document.getElementById('svc-icon').value.trim() || 'ph-first-aid';
+            
+            if(!title || !desc) {
+                const errorEl = document.getElementById('service-error-msg');
+                errorEl.classList.remove('hidden');
+                setTimeout(() => errorEl.classList.add('hidden'), 3000);
+                return;
+            }
+
+            const newSvc = { title, desc, icon, createdAt: Date.now() };
+            if(isFirebaseActive) await addDoc(collection(db, "services"), newSvc);
+            else { 
+                localServices.push({...newSvc, id: 's' + Date.now().toString()}); 
+                renderServices(); 
+                renderAdminServices(); 
+            }
+            
+            document.getElementById('svc-title').value = '';
+            document.getElementById('svc-desc').value = '';
+            document.getElementById('svc-icon').value = '';
+        };
+
+        window.deleteService = async (id) => {
+            if(confirm("Are you sure you want to delete this service?")) {
+                if(isFirebaseActive) {
+                    try {
+                        await deleteDoc(doc(db, "services", id));
+                    } catch (e) {
+                        localServices = localServices.filter(s => s.id !== id);
+                        renderServices(); renderAdminServices();
+                    }
+                } else { 
+                    localServices = localServices.filter(s => s.id !== id); 
+                    renderServices(); renderAdminServices(); 
+                }
+            }
+        };
+
+        // --- Admin: Feedback/Testimonials ---
+        function renderAdminFeedbacks() {
+            const list = document.getElementById('admin-feedback-list');
+            if(localFeedbacks.length === 0) { list.innerHTML = '<p class="text-sm text-gray-400 p-4 border rounded-lg text-center bg-gray-50">No testimonials added yet.</p>'; return; }
+            
+            list.innerHTML = localFeedbacks.map(fb => `
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-xl flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-sm text-brand-900">${fb.name}</p>
+                        <p class="text-sm text-gray-600 mt-2 italic">"${fb.text}"</p>
+                    </div>
+                    <button onclick="deleteFeedback('${fb.id}')" class="text-red-500 bg-white border border-red-100 hover:bg-red-50 p-2 rounded-lg transition-colors ml-4 shadow-sm"><i class="ph ph-trash text-lg"></i></button>
+                </div>
+            `).join('');
+        }
+
+        window.addFeedback = async () => {
+            const name = document.getElementById('fb-name').value;
+            const text = document.getElementById('fb-text').value;
+            if(!name || !text) {
+                const errorEl = document.getElementById('fb-error-msg');
+                errorEl.classList.remove('hidden');
+                setTimeout(() => errorEl.classList.add('hidden'), 3000);
+                return;
+            }
+
+            const newFb = { name, text, createdAt: new Date().toISOString() };
+            if(isFirebaseActive) await addDoc(collection(db, "testimonials"), newFb);
+            else { localFeedbacks.push({...newFb, id: Date.now().toString()}); renderTestimonials(); renderAdminFeedbacks(); }
+            
+            document.getElementById('fb-name').value = '';
+            document.getElementById('fb-text').value = '';
+        };
+
+        window.deleteFeedback = async (id) => {
+            if(confirm("Delete this testimonial from the website?")) {
+                if(isFirebaseActive) await deleteDoc(doc(db, "testimonials", id));
+                else { localFeedbacks = localFeedbacks.filter(f => f.id !== id); renderTestimonials(); renderAdminFeedbacks(); }
+            }
+        };
+
+    </script>
+</body>
+</html>
+
+
